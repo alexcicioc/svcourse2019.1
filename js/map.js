@@ -1,27 +1,46 @@
-const map = {
-  rows: 0,
-  columns: 0,
-  tiles: [],
-  sprites: []
-};
+class Map {
+  constructor() {
+    this.element = $('#mapContent');
+    this.rows = [];
+    this.tiles = [];
+    this.sprites = [];
+  }
+
+  placeSprite(sprite) {
+    const { row, column } = sprite.position;
+    this.sprites[row][column] = sprite;
+  }
+
+  placeRow(row) {
+    const rowElement = $("<div class='row'></div>");
+    this.rows[row] = rowElement;
+    this.element.append(rowElement);
+  }
+
+  placeTile(row, type) {
+    const tileElement = $("<div class='tile'></div>");
+    tileElement.addClass(type);
+    this.rows[row].append(tileElement);
+    if (!this.tiles[row]) {
+      this.tiles[row] = [];
+    }
+    this.tiles[row].push(tileElement);
+  }
+}
+
+let map;
 
 function generateMap(mapData) {
-  map.rows = mapData.map.length - 1;
-
-  const mapElement = $('#mapContent');
+  map = new Map();
   const mapArrayLength = mapData.map.length;
 
   for (let rowIndex = 0; rowIndex < mapArrayLength; rowIndex++) {
-    map.tiles.push([]); //map.tiles[rowIndex] = [];
+    // map.tiles.push([]); //map.tiles[rowIndex] = [];
     const rowArray = mapData.map[rowIndex];
-    const rowElement = $("<div class='row'></div>");
-    mapElement.append(rowElement);
-    map.columns = rowArray.length - 1;
+    map.placeRow(rowIndex);
     for (let columnIndex = 0; columnIndex < rowArray.length; columnIndex++) {
-      const tileElement = $("<div class='tile'></div>");
-      tileElement.addClass(rowArray[columnIndex]);
-      rowElement.append(tileElement);
-      map.tiles[rowIndex].push(tileElement);
+      const tileType = rowArray[columnIndex];
+      map.placeTile(rowIndex, tileType);
     }
   }
 }

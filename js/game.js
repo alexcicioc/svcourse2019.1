@@ -1,11 +1,5 @@
 initMap(generateSprites);
 
-function updateHeroStats() {
-  $('#strength').text(hero.stats.strength);
-  $('#vitality').text(hero.stats.healingPoints + '/' + hero.stats.vitality);
-  updateHeroHpBar();
-}
-
 function updateCoordinates(direction, step) {
   let coordinateName;
 
@@ -21,3 +15,12 @@ function updateCoordinates(direction, step) {
 
   checkTileActions();
 }
+
+const test = function () {
+  this.test = 'myvar';
+  console.log(this);
+}
+
+console.log(new test());
+
+

@@ -16,9 +16,9 @@ function attackMonster(monster) {
     alert('The hero has died, you suck at gaming.');
     window.location.reload();
   } else {
-    monster.spriteElement.remove();
-    delete map.sprites[monster.position[0]][monster.position[1]];
-    updateHeroStats();
+    monster.element.remove();
+    delete map.sprites[monster.position.row][monster.position.column];
+    hero.updateStats();
   }
 
   if (hero.stats.healingPoints > 0 && monster.stats.healingPoints > 0) {
@@ -31,8 +31,9 @@ function drinkPotion(potionSprite) {
   if (hero.stats.healingPoints > hero.stats.vitality) {
     hero.stats.healingPoints = hero.stats.vitality;
   }
-  updateHeroStats();
-  potionSprite.spriteElement.remove();
+  hero.updateStats();
+  console.log(potionSprite.element);
+  potionSprite.element.remove();
   delete map.sprites[hero.position.row][hero.position.column];
 }
 
@@ -45,16 +46,16 @@ function openChest(chestSprite) {
     hero.stats.healingPoints = hero.stats.vitality;
   }
 
-  chestSprite.spriteElement.removeClass('chest-closed');
-  chestSprite.spriteElement.addClass('chest-open');
+  chestSprite.element.removeClass('chest-closed');
+  chestSprite.element.addClass('chest-open');
 
   const heroNewCss = {
     'animation-name': 'hero-stand-by-sword'
   };
-  hero.spriteElement.css(heroNewCss)
+  hero.element.css(heroNewCss)
 
   delete map.sprites[hero.position.row][hero.position.column];
-  updateHeroStats();
+  hero.updateStats();
 }
 
 
@@ -97,7 +98,7 @@ function checkTileActions() {
 //     alert('The hero has died, you suck at gaming.');
 //     window.location.reload();
 //   } else {
-//     monster.spriteElement.remove();
+//     monster.element.remove();
 //     delete map.sprites[monster.position[0]][monster.position[1]];
 //   }
 
